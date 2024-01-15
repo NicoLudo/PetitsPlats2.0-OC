@@ -1,0 +1,1 @@
+import ControllerRecipe from '../controller/ControllerRecipe.js'

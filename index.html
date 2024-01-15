@@ -5,23 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Les petits plats</title>
-    <script src="./controller/ControllerRecipe.js"></script>
-    <script src="./view/ViewRecipe.js"></script>
-    <script src="./model/ModelRecipe.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const model = new ModelRecipe();
-            const view = new ViewRecipe();
-            const controller = new ControllerRecipe(model, view);
-
-            controller.initialize();
-        });
-    </script>
+    <script src="./view/app.js" type="module" defer></script>
 </head>
 
 <body>
     <h1>Liste des Recettes</h1>
     <div id="recipeContainer"></div>
+
 </body>
 
 </html>

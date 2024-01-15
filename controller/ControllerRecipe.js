@@ -1,11 +1,25 @@
+import ModelRecipes from "./model/ModelRecipe.js"
+
 class ControllerRecipe {
-    constructor(model, view) {
-        this.model = model;
-        this.view = view;
+
+    getRecipes() {
+        let oRecipes = new ModelRecipes()
+        return oRecipes.recipes
     }
 
-    async initialize() {
-        await this.model.loadRecipes();
-        this.view.displayRecipes(this.model.getAllRecipes());
+    getIngredients() {
+        let oRecipes = new ModelRecipes()
+        return oRecipes.ingredients
     }
+
+    getAppliances() {
+        let oRecipes = new ModelRecipes()
+        return oRecipes.appliances
+    }
+
+    getUstensils() {
+        let oRecipes = new ModelRecipes()
+        return oRecipes.ustensils
+    }
+
 }

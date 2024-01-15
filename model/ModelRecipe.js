@@ -1,19 +1,37 @@
+import recipes from "../database/recipes.json"
+
 class ModelRecipe {
+
     constructor() {
-        this.recipes = [];
+        this.recipes = []
+        this.ingredients = []
+        this.appliances = []
+        this.ustensils = []
+
+        this.refreshAll()
     }
 
-    async loadRecipes() {
-        try {
-            const response = await fetch("./database/recipes.json");
-            const data = await response.json();
-            this.recipes = data.recipes;
-        } catch (error) {
-            console.error("Erreur lors du chargement des recettes: ", error);
-        }
+    refreshAll() {
+        this.refreshRecipes()
+        this.refreshIngredients()
+        this.refreshAppliances()
+        this.refreshUstensils()
     }
 
-    getAllRecipes() {
-        return this.recipes;
+    refreshRecipes() {
+        this.recipes = recipes
     }
+
+    refreshIngredients() {
+        this.ingredients = recipes.ingredients
+    }
+
+    refreshAppliances() {
+        this.appliances = recipes.appliances
+    }
+
+    refreshUstensils() {
+        this.ustensils = recipes.ustensils
+    }
+
 }
