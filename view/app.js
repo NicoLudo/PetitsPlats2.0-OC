@@ -1,1 +1,3 @@
-import ControllerRecipe from '../controller/ControllerRecipe.js'
+import init from './init.js'
+
+init()

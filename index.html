@@ -6,12 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Les petits plats</title>
     <script src="./view/app.js" type="module" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <h1>Liste des Recettes</h1>
-    <div id="recipeContainer"></div>
+    <div id="headerContainer">
+        <header>
+            <div id="h-ContainerTitle">
+                <h1 id="h-CT-Title">Les Petits Plats</h1>
+                <div id="h-CT-TitleIconOut">
+                    <div id="h-CT-TitleIconIns"></div>
+                </div>
+            </div>
+        </header>
 
+        <div id="hC-SearchBar">
+            <h2 id="hC-SB-Title">Cherchez parmi plus de 1500 recettes du quotidien, simples et délicieuses</h2>
+            <div id="hC-SB-SearchBar"></div>
+        </div>
+    </div>
+
+    <div id="recipesContainer">
+        <div id="rC-Sorting"></div>
+        <div id="rC-Recipes"></div>
+    </div>
 </body>
 
 </html>

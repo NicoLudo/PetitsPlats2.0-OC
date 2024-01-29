@@ -1,37 +1,65 @@
-import recipes from "../database/recipes.json"
+import recipes from "../database/recipes.json" assert {type: "json"};
 
 class ModelRecipe {
-
     constructor() {
-        this.recipes = []
-        this.ingredients = []
-        this.appliances = []
-        this.ustensils = []
+        this.recipes = null;
+        this.ingredients = null;
+        this.appliances = null;
+        this.ustensils = null;
 
-        this.refreshAll()
+        this.refreshAll();
     }
 
     refreshAll() {
-        this.refreshRecipes()
-        this.refreshIngredients()
-        this.refreshAppliances()
-        this.refreshUstensils()
+        this.refreshRecipes();
+        this.refreshIngredients();
+        this.refreshAppliances();
+        this.refreshUstensils();
     }
 
     refreshRecipes() {
-        this.recipes = recipes
+        this.recipes = recipes.recipes;
     }
 
     refreshIngredients() {
-        this.ingredients = recipes.ingredients
+        let allIngredients = [];
+
+        recipes.recipes.forEach(recipe => {
+            recipe.ingredients.forEach(ingredient => {
+                allIngredients.push(ingredient.ingredient);
+            });
+        });
+
+        allIngredients = [...new Set(allIngredients)];
+        allIngredients.sort();
+
+        this.ingredients = allIngredients;
     }
 
     refreshAppliances() {
-        this.appliances = recipes.appliances
+        let allAppliancesSet = new Set();
+
+        recipes.recipes.forEach(recipe => {
+            allAppliancesSet.add(recipe.appliance);
+        });
+
+        this.appliances = Array.from(allAppliancesSet).sort();
     }
 
     refreshUstensils() {
-        this.ustensils = recipes.ustensils
-    }
+        let allUstensils = [];
 
+        recipes.recipes.forEach(recipe => {
+            recipe.ustensils.forEach(ustensil => {
+                allUstensils.push(ustensil);
+            });
+        });
+
+        allUstensils = [...new Set(allUstensils)];
+        allUstensils.sort();
+
+        this.ustensils = allUstensils;
+    }
 }
+
+export default ModelRecipe;

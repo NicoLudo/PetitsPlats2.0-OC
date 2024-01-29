@@ -1,25 +1,25 @@
-import ModelRecipes from "./model/ModelRecipe.js"
+import ModelRecipes from "../model/ModelRecipe.js";
 
 class ControllerRecipe {
-
     getRecipes() {
-        let oRecipes = new ModelRecipes()
-        return oRecipes.recipes
+        let oRecipes = new ModelRecipes();
+        return oRecipes.recipes;
     }
 
     getIngredients() {
-        let oRecipes = new ModelRecipes()
-        return oRecipes.ingredients
+        let oRecipes = new ModelRecipes();
+        return oRecipes.ingredients;
     }
 
     getAppliances() {
-        let oRecipes = new ModelRecipes()
-        return oRecipes.appliances
+        let oRecipes = new ModelRecipes();
+        return oRecipes.appliances;
     }
 
     getUstensils() {
-        let oRecipes = new ModelRecipes()
-        return oRecipes.ustensils
+        let oRecipes = new ModelRecipes();
+        return oRecipes.ustensils;
     }
-
 }
+
+export default ControllerRecipe;

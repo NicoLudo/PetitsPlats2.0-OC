@@ -1,0 +1,369 @@
+/***
+
+* Tailles d'écrans
+
+Mobile : 600px
+Tablette : 1024px
+
+***/
+
+:root {
+    /* Espaces des containers (gauche et droite) selon les tailles d'écrans */
+    --ws-pc-padding: 0px 100px;
+    --ws-tablet-padding: 0px 35px;
+    --ws-mobile-padding: 0px 20px;
+
+    /* Couleurs */
+    --jaune-color: #FFD15B;
+    --gris-color: #EDEDED;
+    --gris-2-color: #CCC;
+    --gris-fonce-color: #A7A4A4;
+}
+
+h1 {
+    margin: 0;
+}
+
+h1,
+h2,
+h3,
+p,
+span {
+    word-break: break-word;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+/***********
+
+* Header
+
+***********/
+
+/* Container parent */
+
+#headerContainer {
+    position: relative;
+    background-image: url(./src/images/header-background.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: var(--ws-pc-padding);
+    padding-top: 50px;
+    padding-bottom: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+}
+
+#headerContainer:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: black;
+    opacity: 0.3;
+}
+
+@media (max-width: 1024px) {
+    #headerContainer {
+        padding: var(--ws-tablet-padding);
+        padding-top: 50px;
+        padding-bottom: 150px;
+    }
+}
+
+@media (max-width: 600px) {
+    #headerContainer {
+        padding: var(--ws-mobile-padding);
+        padding-top: 50px;
+        padding-bottom: 150px;
+    }
+}
+
+/* Titre du site */
+
+#h-ContainerTitle {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    position: relative;
+}
+
+#h-CT-Title {
+    color: white;
+    font-weight: bold;
+    font-size: 32px;
+    text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+    #h-CT-Title {
+        font-size: 25px;
+    }
+}
+
+#h-CT-TitleIconOut {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: solid 1px white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#h-CT-TitleIconIns {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: white;
+}
+
+/* Barre de recherche */
+
+#hC-SearchBar {
+    padding: var(--ws-pc-padding);
+    position: relative;
+}
+
+#hC-SB-Title {
+    color: var(--jaune-color);
+    font-weight: bold;
+    font-size: 50px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+@media (max-width: 1024px) {
+    #hC-SB-Title {
+        font-size: 40px;
+    }
+
+    #hC-SearchBar {
+        padding: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    #hC-SB-Title {
+        font-size: 32px;
+    }
+}
+
+/***********
+
+* Recettes
+
+***********/
+
+/* Le container de la page */
+
+#recipesContainer {
+    padding: var(--ws-pc-padding);
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: var(--gris-color);
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+@media (max-width: 600px) {
+    #recipesContainer {
+        padding: var(--ws-mobile-padding);
+    }
+}
+
+@media (max-width: 1024px) {
+    #recipesContainer {
+        padding: var(--ws-tablet-padding);
+    }
+}
+
+/* Le container pour les cards */
+
+#rC-Recipes {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 50px;
+}
+
+/* Single card */
+
+.recipe-card {
+    background-color: white;
+    border-radius: 30px;
+}
+
+.card-content {
+    padding: 30px;
+}
+
+.card-content>div {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.card-content>div>div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.span-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--gris-fonce-color);
+    letter-spacing: 3px;
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    position: relative;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 30px 30px 0px 0px;
+}
+
+.card-image div {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--jaune-color);
+    padding: 5px 10px;
+    border-radius: 100px;
+}
+
+/* Dropdowns - Container parent */
+
+#rC-Sorting {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+/* Boutons dropdowns */
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    width: 160px;
+    border-radius: 15px;
+}
+
+.dropbtn .arrow {
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    padding: 5px;
+    transform: rotate(45deg);
+    transition: transform 0.3s;
+    width: 0px;
+    height: 0px;
+}
+
+.dropbtn.dropdown-active .arrow {
+    transform: rotate(225deg);
+}
+
+.dropbtn.dropdown-active {
+    border-radius: 15px 15px 0 0;
+}
+
+/* Les éléments dans le dropdown */
+
+.dropdown-content {
+    border-radius: 0 0 15px 15px;
+    padding-bottom: 0;
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0px 5px 5px lightgrey;
+    z-index: 1;
+}
+
+.show-dropdown-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown-content.show-dropdown-content {
+    border-radius: 0 0 0px 15px;
+}
+
+.dropdown-items {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    height: 300px;
+}
+
+.dropdown-items>span {
+    padding: 12px 16px;
+}
+
+.dropdown-items>span:hover {
+    background-color: var(--gris-color);
+}
+
+.dropdown-items>span:last-child:hover {
+    border-radius: 0px 0px 0px 11px;
+}
+
+/* La barre de recherche dans le dropdown */
+
+.search-box {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 12px 16px;
+}
+
+.dropdown-search {
+    padding: 8px;
+    padding-right: 25px;
+    border: 1px solid var(--gris-2-color);
+    border-radius: 3px;
+    width: 100%;
+    outline: none;
+}
+
+.search-clear {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--gris-2-color);
+    display: none;
+}
+
+.search-clear--active {
+    display: block;
+}
