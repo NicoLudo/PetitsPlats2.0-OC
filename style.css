@@ -157,6 +157,32 @@ body {
     }
 }
 
+.search-bar {
+    display: flex;
+    height: 70px;
+}
+
+.search-input {
+    width: 100%;
+    outline: none;
+    border: none;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.search-button {
+    position: absolute;
+    right: 120px;
+    bottom: 5px;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 25px;
+    color: var(--gris-2-color);
+    padding: 0;
+}
+
 /***********
 
 * Recettes
@@ -260,7 +286,7 @@ body {
 
 .dropdown {
     position: relative;
-    display: inline-block;
+    /* display: inline-block; */
 }
 
 .dropbtn {
@@ -321,16 +347,42 @@ body {
     height: 300px;
 }
 
-.dropdown-items>span {
+.dropdown-items>span,
+.selected-item {
     padding: 12px 16px;
 }
 
-.dropdown-items>span:hover {
-    background-color: var(--gris-color);
+.dropdown-items>span:hover,
+.selected-item {
+    background-color: var(--jaune-color);
+}
+
+.selected-items {
+    padding-bottom: 12px;
+}
+
+.selected-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .dropdown-items>span:last-child:hover {
     border-radius: 0px 0px 0px 11px;
+}
+
+.selecteditems-delete-icon {
+    display: none;
+    cursor: pointer;
+}
+
+.selected-item:hover .selecteditems-delete-icon {
+    display: inline-block;
+}
+
+.dropdown-item--active {
+    display: none;
 }
 
 /* La barre de recherche dans le dropdown */
