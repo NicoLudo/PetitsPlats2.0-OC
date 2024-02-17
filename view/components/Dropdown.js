@@ -206,9 +206,6 @@ class Dropdown {
             searchInput.value = "";
             searchInput.dispatchEvent(new Event("input"));
         });
-
-
-
     }
 }
 
