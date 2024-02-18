@@ -18,7 +18,8 @@ allRecipes.forEach(recipe => {
         recipe.image,
         recipe.time,
         recipe.description,
-        recipe.ingredients
+        recipe.ingredients,
+        recipe.appliance
     );
     fragment.appendChild(oCard.DOMElement);
 });
@@ -26,17 +27,17 @@ rCRecipes.appendChild(fragment);
 oFilterManager.oRecipeCards = fragment;
 
 /* FILTERS DISPLAY */
-const dropdownIngredients = new Dropdown('Ingrédients', oControllerRecipe.getIngredients(), oFilterManager)
-const dropdownAppliances = new Dropdown('Appareils', oControllerRecipe.getAppliances(), oFilterManager)
-const dropdownUstensils = new Dropdown('Ustensils', oControllerRecipe.getUstensils(), oFilterManager)
+const dropdownIngredients = new Dropdown('Ingrédients', oControllerRecipe.getIngredients(), oFilterManager);
+const dropdownAppliances = new Dropdown('Appareils', oControllerRecipe.getAppliances(), oFilterManager);
+const dropdownUstensils = new Dropdown('Ustensils', oControllerRecipe.getUstensils(), oFilterManager);
 
-document.querySelector('#rC-Sorting').appendChild(dropdownIngredients.DOMElement)
-document.querySelector('#rC-Sorting').appendChild(dropdownAppliances.DOMElement)
-document.querySelector('#rC-Sorting').appendChild(dropdownUstensils.DOMElement)
+document.querySelector('#rC-Sorting').appendChild(dropdownIngredients.DOMElement);
+document.querySelector('#rC-Sorting').appendChild(dropdownAppliances.DOMElement);
+document.querySelector('#rC-Sorting').appendChild(dropdownUstensils.DOMElement);
 
-oFilterManager.oIngredients = dropdownIngredients
-oFilterManager.oAppliances = dropdownAppliances
-oFilterManager.oUstensils = dropdownUstensils
+oFilterManager.oIngredients = dropdownIngredients;
+oFilterManager.oAppliances = dropdownAppliances;
+oFilterManager.oUstensils = dropdownUstensils;
 
 /* SEARCH BAR DISPLAY */
 const searchBar = new SearchBar("Rechercher une recette, un ingrédient, etc...", oFilterManager);

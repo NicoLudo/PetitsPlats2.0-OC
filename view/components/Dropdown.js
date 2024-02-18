@@ -3,7 +3,7 @@ class Dropdown {
         this.label = label;
         this.contents = contents;
         this.selectedItems = [];
-        this.DOMElement = this.createDropdown();
+        this.DOMElement = this.createDropdown(); // Création de l'élément DOM 
         this.oFilterManager = oFilterManager;
         this.inittializeDropdown();
         this.addListeners();
@@ -11,8 +11,6 @@ class Dropdown {
 
     // Initialise le dropdown 
     inittializeDropdown() {
-        const selectedItemsDiv = this.createDropdownSelectedItems();
-        this.DOMElement.appendChild(selectedItemsDiv);
         this.updateDropdownItems();
     }
 
@@ -85,21 +83,28 @@ class Dropdown {
     // Met à jour les éléments sélectionnés dans l'UI
     updateSelectedItemsDiv() {
         const selectedItemsDiv = this.DOMElement.querySelector(".selected-items");
-        selectedItemsDiv.innerHTML = "";
+        const selectedItemsParentDiv = this.DOMElement.closest('.parent-dropdown').querySelector('.selected-items-parent');
 
-        this.selectedItems.forEach(item => {
-            const selectedItem = document.createElement("span");
-            selectedItem.textContent = item;
-            selectedItem.className = "selected-item";
+        // Fonction pour mettre à jour les éléments sélectionnés
+        const updateDiv = (div) => {
+            div.innerHTML = "";
+            this.selectedItems.forEach(item => {
+                const selectedItem = document.createElement("span");
+                selectedItem.textContent = item;
+                selectedItem.className = "selected-item";
 
-            const deleteIcon = document.createElement("span");
-            deleteIcon.innerHTML = "&times;";
-            deleteIcon.className = "selecteditems-delete-icon";
-            deleteIcon.onclick = () => this.removeItemFromSelected(item);
-            selectedItem.appendChild(deleteIcon);
+                const deleteIcon = document.createElement("span");
+                deleteIcon.innerHTML = "&times;";
+                deleteIcon.className = "selecteditems-delete-icon";
+                deleteIcon.onclick = () => this.removeItemFromSelected(item);
+                selectedItem.appendChild(deleteIcon);
 
-            selectedItemsDiv.appendChild(selectedItem);
-        });
+                div.appendChild(selectedItem);
+            });
+        };
+
+        updateDiv(selectedItemsDiv);
+        updateDiv(selectedItemsParentDiv);
     }
 
     // Met à jour les éléments de la liste déroulante
@@ -143,6 +148,9 @@ class Dropdown {
 
     // Assemble les dropdowns complet
     createDropdown() {
+        const dropdownParentDiv = document.createElement("div");
+        dropdownParentDiv.className = "parent-dropdown";
+
         const dropdownDiv = document.createElement("div");
         dropdownDiv.className = "dropdown";
 
@@ -158,12 +166,17 @@ class Dropdown {
         const selectedItemsDiv = this.createDropdownSelectedItems();
         dropdownContentDiv.appendChild(selectedItemsDiv);
 
+        const selectedItemsParentDiv = document.createElement("div");
+        selectedItemsParentDiv.className = "selected-items-parent";
+
         const dropdownItemsDiv = this.createDropdownItems(this.contents);
         dropdownContentDiv.appendChild(dropdownItemsDiv);
 
         dropdownDiv.appendChild(dropdownContentDiv);
+        dropdownParentDiv.appendChild(dropdownDiv);
+        dropdownParentDiv.appendChild(selectedItemsParentDiv);
 
-        return dropdownDiv;
+        return dropdownParentDiv;
     }
 
     // Les écouteurs d'événements pour le fonctionnement interactif des dropdowns
