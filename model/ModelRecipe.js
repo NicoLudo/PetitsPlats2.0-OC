@@ -21,29 +21,36 @@ class ModelRecipe {
         this.recipes = recipes.recipes;
     }
 
+    capitalizeText(text) {
+        return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    }
+
+    uniqueSortedList(items) {
+        return [...new Set(items)].sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base', ignorePunctuation: true }));
+    }
+
     refreshIngredients() {
         let allIngredients = [];
 
         recipes.recipes.forEach(recipe => {
             recipe.ingredients.forEach(ingredient => {
-                allIngredients.push(ingredient.ingredient);
+                let ingredientName = this.capitalizeText(ingredient.ingredient);
+                allIngredients.push(ingredientName);
             });
         });
 
-        allIngredients = [...new Set(allIngredients)];
-        allIngredients.sort();
-
-        this.ingredients = allIngredients;
+        this.ingredients = this.uniqueSortedList(allIngredients);
     }
 
     refreshAppliances() {
-        let allAppliancesSet = new Set();
+        let allAppliances = [];
 
         recipes.recipes.forEach(recipe => {
-            allAppliancesSet.add(recipe.appliance);
+            let applianceName = this.capitalizeText(recipe.appliance);
+            allAppliances.push(applianceName);
         });
 
-        this.appliances = Array.from(allAppliancesSet).sort();
+        this.appliances = this.uniqueSortedList(allAppliances);
     }
 
     refreshUstensils() {
@@ -51,14 +58,12 @@ class ModelRecipe {
 
         recipes.recipes.forEach(recipe => {
             recipe.ustensils.forEach(ustensil => {
-                allUstensils.push(ustensil);
+                let ustensilName = this.capitalizeText(ustensil);
+                allUstensils.push(ustensilName);
             });
         });
 
-        allUstensils = [...new Set(allUstensils)];
-        allUstensils.sort();
-
-        this.ustensils = allUstensils;
+        this.ustensils = this.uniqueSortedList(allUstensils);
     }
 }
 
