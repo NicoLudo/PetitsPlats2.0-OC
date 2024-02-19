@@ -286,7 +286,6 @@ body {
 
 .dropdown {
     position: relative;
-    /* display: inline-block; */
 }
 
 .dropbtn {
@@ -383,6 +382,23 @@ body {
 
 .dropdown-item--active {
     display: none;
+}
+
+.selected-items-parent>.selected-item {
+    padding: 16px;
+}
+
+.selected-items-parent>.selected-item:first-child {
+    border-radius: 15px 15px 0px 0px;
+    margin-top: 12px;
+}
+
+.selected-items-parent>.selected-item:last-child {
+    border-radius: 0px 0px 15px 15px;
+}
+
+.selected-items-parent>.selected-item:only-child {
+    border-radius: 15px;
 }
 
 /* La barre de recherche dans le dropdown */
