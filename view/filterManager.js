@@ -67,8 +67,8 @@ export default class FilterManager {
                 recipe.image,
                 recipe.time,
                 recipe.description,
-                recipe.ingredients,
-                recipe.appliance
+                recipe.ingredients
+                // recipe.appliance
             );
             fragment.appendChild(oCard.DOMElement);
         });

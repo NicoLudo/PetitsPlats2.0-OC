@@ -5,7 +5,7 @@ class RecipeCard {
         this.time = time;
         this.recipe = recipe;
         this.ingredient = ingredient;
-        this.appliance = appliance;
+        // this.appliance = appliance;
         this.DOMElement = this.createCard(); // Crée l'élément DOM de la carte
     }
 
@@ -41,17 +41,22 @@ class RecipeCard {
         let ingDiv = this.createElement("div");
         let ingTitle = this.createElement("span", "span-title", "Ingrédients");
         ingDiv.prepend(ingTitle);
+        let ingList = this.createElement("div", "ing-list")
         this.ingredient.forEach(({ ingredient, quantity, unit }) => {
-            ingDiv.innerHTML += `<span>${ingredient} (${quantity}${unit ? " " + unit : ""})</span>`;
+            let ingSpan = this.createElement("span", "ing-span", `${ingredient}`);
+            let ingSpanQU = this.createElement("span", "ing-qu", `${quantity}${unit ? " " + unit : ""}`);
+            ingSpan.appendChild(ingSpanQU);
+            ingList.appendChild(ingSpan);
         });
+        ingDiv.appendChild(ingList);
 
-        let appliDiv = this.createElement("div", null, `${this.appliance}`);
-        let appliTitle = this.createElement("span", "span-title", "Appareil");
-        appliDiv.prepend(appliTitle);
+        // let appliDiv = this.createElement("div", null, `${this.appliance}`);
+        // let appliTitle = this.createElement("span", "span-title", "Appareil");
+        // appliDiv.prepend(appliTitle);
 
         parentDiv.appendChild(descDiv);
         parentDiv.appendChild(ingDiv);
-        parentDiv.appendChild(appliDiv);
+        // parentDiv.appendChild(appliDiv);
 
         contentDiv.appendChild(titleDiv);
         contentDiv.appendChild(parentDiv);

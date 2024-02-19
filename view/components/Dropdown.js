@@ -42,7 +42,7 @@ class Dropdown {
 
         const clearButton = document.createElement("button");
         clearButton.className = "search-clear";
-        clearButton.innerHTML = "&times;";
+        clearButton.innerHTML = "&times;"; // Symbole de croix
         searchBoxDiv.appendChild(clearButton);
 
         return searchBoxDiv;
