@@ -28,12 +28,6 @@ class SearchBar {
         input.type = "text";
         input.placeholder = this.placeholder;
         input.className = "search-input";
-        input.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                this.oFilterManager.filter();
-            }
-        });
         return input;
     }
 
@@ -42,9 +36,6 @@ class SearchBar {
         const button = document.createElement("button");
         button.className = "search-button";
         button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>`; // Symbole de loupe
-        button.addEventListener("click", () => {
-            this.oFilterManager.filter();
-        });
         return button;
     }
 
@@ -53,12 +44,6 @@ class SearchBar {
         const clearButton = document.createElement("button");
         clearButton.className = "search-bar-clear";
         clearButton.innerHTML = "&times;"; // Symbole de croix
-        clearButton.addEventListener("click", () => {
-            const input = this.DOMElement.querySelector(".search-input");
-            input.value = "";
-            input.focus();
-            this.oFilterManager.filter();
-        });
         return clearButton;
     }
 
@@ -67,8 +52,17 @@ class SearchBar {
         const input = this.DOMElement.querySelector(".search-input");
         const clearButton = this.DOMElement.querySelector(".search-bar-clear");
 
+        clearButton.addEventListener("click", () => {
+            input.value = "";
+            input.focus();
+            clearButton.classList.remove("search-clear--active");
+
+            this.oFilterManager.filter();
+        });
+
         input.addEventListener("input", () => {
-            clearButton.classList.toggle("search-clear--active", input.value.length > 0);
+            clearButton.classList.add("search-clear--active", input.value.length > 0);
+            this.oFilterManager.filter()
         });
     }
 }

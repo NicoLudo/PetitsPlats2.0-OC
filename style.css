@@ -193,6 +193,11 @@ body {
 .recipe-card {
     background-color: white;
     border-radius: 30px;
+    display: none;
+}
+
+.recipe-card--active {
+    display: block;
 }
 
 .card-content {

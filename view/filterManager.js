@@ -1,5 +1,3 @@
-import RecipeCard from "./components/RecipeCard.js";
-
 export default class FilterManager {
     constructor(oControllerRecipe) {
         this.oControllerRecipe = oControllerRecipe;
@@ -15,14 +13,12 @@ export default class FilterManager {
         let filteredRecipes = this.oControllerRecipe.getRecipes();
 
         // Filtre par la barre de recherche si du texte est entré
-        if (this.oSearchbar && this.oSearchbar.DOMElement.querySelector(".search-input").value.length > 0) {
+        if (this.oSearchbar && this.oSearchbar.DOMElement.querySelector(".search-input").value.length >= 3) {
             const searchText = this.oSearchbar.DOMElement.querySelector(".search-input").value.toLowerCase();
             filteredRecipes = filteredRecipes.filter(recipe =>
                 recipe.name.toLowerCase().includes(searchText) ||
                 recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(searchText)) ||
-                recipe.description.toLowerCase().includes(searchText) ||
-                recipe.appliance.toLowerCase().includes(searchText) ||
-                recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(searchText))
+                recipe.description.toLowerCase().includes(searchText)
             );
         }
 
@@ -52,26 +48,22 @@ export default class FilterManager {
             );
         }
 
+        // this.updateFilters(filteredRecipes);
         this.updateRecipeDisplay(filteredRecipes);
     }
 
     // Crée et ajoute les cartes de recettes filtrées
     updateRecipeDisplay(filteredRecipes) {
-        const rCRecipes = document.querySelector("#rC-Recipes");
-        rCRecipes.innerHTML = "";
+        const filteredIds = new Set(filteredRecipes.map(r => r.id));
 
-        const fragment = document.createDocumentFragment();
-        filteredRecipes.forEach(recipe => {
-            const oCard = new RecipeCard(
-                recipe.name,
-                recipe.image,
-                recipe.time,
-                recipe.description,
-                recipe.ingredients
-                // recipe.appliance
-            );
-            fragment.appendChild(oCard.DOMElement);
+        this.oRecipeCards.forEach(recipe => {
+            const id = Number(recipe.getAttribute("data-id"));
+
+            if (filteredIds.has(id)) {
+                recipe.classList.add("recipe-card--active");
+            } else {
+                recipe.classList.remove("recipe-card--active");
+            }
         });
-        rCRecipes.appendChild(fragment);
     }
 }

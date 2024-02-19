@@ -1,11 +1,11 @@
 class RecipeCard {
-    constructor(name, image, time, recipe, ingredient, appliance) {
+    constructor(id, name, image, time, recipe, ingredient) {
+        this.id = id
         this.name = name;
         this.image = image;
         this.time = time;
         this.recipe = recipe;
         this.ingredient = ingredient;
-        // this.appliance = appliance;
         this.DOMElement = this.createCard(); // Crée l'élément DOM de la carte
     }
 
@@ -20,6 +20,8 @@ class RecipeCard {
     // Fonction pour créer et retourner la carte recette complète
     createCard() {
         let cardDiv = this.createElement("div", "recipe-card");
+        cardDiv.classList.add("recipe-card--active");
+        cardDiv.setAttribute("data-id", this.id);
 
         let imgDiv = this.createElement("div", "card-image");
         let img = this.createElement("img");
@@ -50,13 +52,8 @@ class RecipeCard {
         });
         ingDiv.appendChild(ingList);
 
-        // let appliDiv = this.createElement("div", null, `${this.appliance}`);
-        // let appliTitle = this.createElement("span", "span-title", "Appareil");
-        // appliDiv.prepend(appliTitle);
-
         parentDiv.appendChild(descDiv);
         parentDiv.appendChild(ingDiv);
-        // parentDiv.appendChild(appliDiv);
 
         contentDiv.appendChild(titleDiv);
         contentDiv.appendChild(parentDiv);

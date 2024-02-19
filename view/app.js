@@ -11,20 +11,20 @@ let oFilterManager = new FilterManager(oControllerRecipe);
 let allRecipes = oControllerRecipe.getRecipes();
 const rCRecipes = document.querySelector("#rC-Recipes");
 
-const fragment = document.createDocumentFragment();
+let recipes = []
 allRecipes.forEach(recipe => {
     const oCard = new RecipeCard(
+        recipe.id,
         recipe.name,
         recipe.image,
         recipe.time,
         recipe.description,
         recipe.ingredients
-        // recipe.appliance
     );
-    fragment.appendChild(oCard.DOMElement);
+    rCRecipes.appendChild(oCard.DOMElement);
+    recipes.push(oCard.DOMElement);
 });
-rCRecipes.appendChild(fragment);
-oFilterManager.oRecipeCards = fragment;
+oFilterManager.oRecipeCards = recipes;
 
 /* FILTERS DISPLAY */
 const dropdownIngredients = new Dropdown('Ingrédients', oControllerRecipe.getIngredients(), oFilterManager);
