@@ -34,17 +34,20 @@ class RecipeCard {
 
         let parentDiv = document.createElement("div");
 
-        let descDiv = this.createElement("div");
-        descDiv.innerHTML = `<span class="span-title">Recette</span> ${this.recipe}`;
+        let descDiv = this.createElement("div", null, `${this.recipe}`);
+        let descTitle = this.createElement("span", "span-title", "Recette");
+        descDiv.prepend(descTitle);
 
         let ingDiv = this.createElement("div");
-        ingDiv.innerHTML = '<span class="span-title">Ingrédients</span>';
+        let ingTitle = this.createElement("span", "span-title", "Ingrédients");
+        ingDiv.prepend(ingTitle);
         this.ingredient.forEach(({ ingredient, quantity, unit }) => {
-            ingDiv.innerHTML += `<div>${ingredient} (${quantity}${unit ? " " + unit : ""})</div>`;
+            ingDiv.innerHTML += `<span>${ingredient} (${quantity}${unit ? " " + unit : ""})</span>`;
         });
 
-        let appliDiv = this.createElement("div");
-        appliDiv.innerHTML = `<span class="span-title">Appareil</span><div>${this.appliance}</div>`;
+        let appliDiv = this.createElement("div", null, `${this.appliance}`);
+        let appliTitle = this.createElement("span", "span-title", "Appareil");
+        appliDiv.prepend(appliTitle);
 
         parentDiv.appendChild(descDiv);
         parentDiv.appendChild(ingDiv);
