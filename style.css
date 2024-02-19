@@ -1,8 +1,9 @@
 :root {
-    /* Espaces des containers (gauche et droite) selon les tailles d'écrans */
-    --ws-pc-padding: 0px 100px;
-    --ws-tablet-padding: 0px 35px;
-    --ws-mobile-padding: 0px 20px;
+    /* Espaces des sections */
+    --section-pc-padding: 0px 100px;
+    --section-tablet-padding: 0px 35px;
+    --section-mobile-padding: 0px 20px;
+    --section-top-bottom-padding: 50px;
 
     /* Couleurs */
     --jaune-color: #FFD15B;
@@ -42,8 +43,8 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    padding: var(--ws-pc-padding);
-    padding-top: 50px;
+    padding: var(--section-pc-padding);
+    padding-top: var(--section-top-bottom-padding);
     padding-bottom: 150px;
     display: flex;
     flex-direction: column;
@@ -98,7 +99,7 @@ body {
 /* Barre de recherche */
 
 #hC-SearchBar {
-    padding: var(--ws-pc-padding);
+    padding: var(--section-pc-padding);
     position: relative;
 }
 
@@ -170,9 +171,9 @@ body {
 /* Le container de la page */
 
 #recipesContainer {
-    padding: var(--ws-pc-padding);
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding: var(--section-pc-padding);
+    padding-top: var(--section-top-bottom-padding);
+    padding-bottom: var(--section-top-bottom-padding);
     background-color: var(--gris-color);
     display: flex;
     flex-direction: column;
@@ -259,8 +260,8 @@ body {
 
 #rC-Sorting {
     display: flex;
-    flex-direction: row;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
 /* Boutons dropdowns */
@@ -430,7 +431,9 @@ Tablette : 1024px
 
 @media (max-width: 1024px) {
     #recipesContainer {
-        padding: var(--ws-tablet-padding);
+        padding: var(--section-tablet-padding);
+        padding-top: var(--section-top-bottom-padding);
+        padding-bottom: var(--section-top-bottom-padding);
     }
 
     #hC-SB-Title {
@@ -438,17 +441,17 @@ Tablette : 1024px
     }
 
     #hC-SearchBar {
-        padding: var(--ws-tablet-padding);
+        padding: var(--section-tablet-padding);
     }
 
     #headerContainer {
         padding: 0;
-        padding-top: 50px;
-        padding-bottom: 150px;
+        padding-top: var(--section-top-bottom-padding);
+        padding-bottom: var(--section-top-bottom-padding);
     }
 
     header {
-        padding: var(--ws-tablet-padding);
+        padding: var(--section-tablet-padding);
     }
 
     .search-input {
@@ -458,11 +461,17 @@ Tablette : 1024px
     .search-bar-clear {
         right: 100px;
     }
+
+    #rC-Sorting {
+        justify-content: center;
+    }
 }
 
 @media (max-width: 600px) {
     #recipesContainer {
-        padding: var(--ws-mobile-padding);
+        padding: var(--section-mobile-padding);
+        padding-top: var(--section-top-bottom-padding);
+        padding-bottom: var(--section-top-bottom-padding);
     }
 
     #hC-SB-Title {
@@ -478,7 +487,7 @@ Tablette : 1024px
     }
 
     #hC-SearchBar {
-        padding: var(--ws-mobile-padding);
+        padding: var(--section-mobile-padding);
     }
 
     .search-input {

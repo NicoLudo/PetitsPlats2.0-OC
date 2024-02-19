@@ -1,16 +1,18 @@
 class Dropdown {
+    static currentOpenDropdown = null; // Propriété pour suivre le dropdown ouvert
+
     constructor(label, contents, oFilterManager) {
         this.label = label;
         this.contents = contents;
         this.selectedItems = [];
         this.DOMElement = this.createDropdown(); // Création de l'élément DOM 
         this.oFilterManager = oFilterManager;
-        this.inittializeDropdown();
+        this.initializeDropdown();
         this.addListeners();
     }
 
-    // Initialise le dropdown 
-    inittializeDropdown() {
+    // Initialise le dropdown pour préparer les éléments à être affichés
+    initializeDropdown() {
         this.updateDropdownItems();
     }
 
@@ -188,8 +190,16 @@ class Dropdown {
 
         dropdownButton.addEventListener("click", function (event) {
             event.stopPropagation();
+
+            if (Dropdown.currentOpenDropdown && Dropdown.currentOpenDropdown !== this) {
+                Dropdown.currentOpenDropdown.classList.remove("dropdown-active");
+                Dropdown.currentOpenDropdown.nextElementSibling.classList.remove("show-dropdown-content");
+            }
+
             this.classList.toggle("dropdown-active");
             dropdownContent.classList.toggle("show-dropdown-content");
+
+            Dropdown.currentOpenDropdown = this.classList.contains("dropdown-active") ? this : null;
         });
 
         dropdownContent.addEventListener("click", function (event) {
