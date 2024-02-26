@@ -1,4 +1,6 @@
 import recipes from "../database/recipes.json" assert {type: "json"};
+import { capitalizeText } from "../view/utils/capitalizeText.js";
+import { uniqueSortedList } from "../view/utils/uniqueSortedList.js";
 
 class ModelRecipe {
     constructor() {
@@ -21,36 +23,28 @@ class ModelRecipe {
         this.recipes = recipes.recipes;
     }
 
-    capitalizeText(text) {
-        return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-    }
-
-    uniqueSortedList(items) {
-        return [...new Set(items)].sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base', ignorePunctuation: true }));
-    }
-
     refreshIngredients() {
         let allIngredients = [];
 
         recipes.recipes.forEach(recipe => {
             recipe.ingredients.forEach(ingredient => {
-                let ingredientName = this.capitalizeText(ingredient.ingredient);
+                let ingredientName = capitalizeText(ingredient.ingredient);
                 allIngredients.push(ingredientName);
             });
         });
 
-        this.ingredients = this.uniqueSortedList(allIngredients);
+        this.ingredients = uniqueSortedList(allIngredients);
     }
 
     refreshAppliances() {
         let allAppliances = [];
 
         recipes.recipes.forEach(recipe => {
-            let applianceName = this.capitalizeText(recipe.appliance);
+            let applianceName = capitalizeText(recipe.appliance);
             allAppliances.push(applianceName);
         });
 
-        this.appliances = this.uniqueSortedList(allAppliances);
+        this.appliances = uniqueSortedList(allAppliances);
     }
 
     refreshUstensils() {
@@ -58,12 +52,12 @@ class ModelRecipe {
 
         recipes.recipes.forEach(recipe => {
             recipe.ustensils.forEach(ustensil => {
-                let ustensilName = this.capitalizeText(ustensil);
+                let ustensilName = capitalizeText(ustensil);
                 allUstensils.push(ustensilName);
             });
         });
 
-        this.ustensils = this.uniqueSortedList(allUstensils);
+        this.ustensils = uniqueSortedList(allUstensils);
     }
 }
 
