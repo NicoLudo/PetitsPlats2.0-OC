@@ -4,15 +4,18 @@ import Dropdown from "./components/Dropdown.js";
 import SearchBar from "./components/SearchBar.js";
 import FilterManager from "./filterManager.js";
 
+// Initialisation du contrôleur de recettes et du gestionnaire de filtres
 let oControllerRecipe = new ControllerRecipe();
 let oFilterManager = new FilterManager(oControllerRecipe);
 
-/* RECIPE DISPLAY */
+/* AFFICHAGE DES RECETTES */
 let allRecipes = oControllerRecipe.getRecipes();
 const rCRecipes = document.querySelector("#rC-Recipes");
 
-let recipes = []
-allRecipes.forEach(recipe => {
+// Boucle pour créer et afficher chaque carte de recette
+let recipes = [];
+for (let i = 0; i < allRecipes.length; i++) {
+    const recipe = allRecipes[i];
     const oCard = new RecipeCard(
         recipe.id,
         recipe.name,
@@ -23,24 +26,32 @@ allRecipes.forEach(recipe => {
     );
     rCRecipes.appendChild(oCard.DOMElement);
     recipes.push(oCard.DOMElement);
-});
+}
+// Stockage des cartes de recettes dans le gestionnaire de filtres
 oFilterManager.oRecipeCards = recipes;
 
-/* FILTERS DISPLAY */
-const dropdownIngredients = new Dropdown('Ingrédients', oControllerRecipe.getIngredients(), oFilterManager);
-const dropdownAppliances = new Dropdown('Appareils', oControllerRecipe.getAppliances(), oFilterManager);
-const dropdownUstensils = new Dropdown('Ustensils', oControllerRecipe.getUstensils(), oFilterManager);
+/* AFFICHAGE DES FILTRES */
+// Fonction pour ajouter un Dropdown au DOM
+function addDropdownToDOM(type, getter, oFilterManager, selector) {
+    const dropdown = new Dropdown(type, getter.call(oControllerRecipe), oFilterManager);
+    document.querySelector(selector).appendChild(dropdown.DOMElement);
+    return dropdown;
+}
 
-document.querySelector('#rC-Sorting').appendChild(dropdownIngredients.DOMElement);
-document.querySelector('#rC-Sorting').appendChild(dropdownAppliances.DOMElement);
-document.querySelector('#rC-Sorting').appendChild(dropdownUstensils.DOMElement);
+// Ajout des Dropdowns pour les ingrédients, appareils et ustensiles
+const dropdownIngredients = addDropdownToDOM("Ingrédients", oControllerRecipe.getIngredients, oFilterManager, "#rC-Sorting");
+const dropdownAppliances = addDropdownToDOM("Appareils", oControllerRecipe.getAppliances, oFilterManager, "#rC-Sorting");
+const dropdownUstensils = addDropdownToDOM("Ustensils", oControllerRecipe.getUstensils, oFilterManager, "#rC-Sorting");
 
+// Stockage des Dropdowns dans le gestionnaire de filtres
 oFilterManager.oIngredients = dropdownIngredients;
 oFilterManager.oAppliances = dropdownAppliances;
 oFilterManager.oUstensils = dropdownUstensils;
 
-/* SEARCH BAR DISPLAY */
+/* AFFICHAGE DE LA BARRE DE RECHERCHE */
+// Création et ajout de la barre de recherche au DOM
 const searchBar = new SearchBar("Rechercher une recette, un ingrédient, etc...", oFilterManager);
 document.querySelector("#hC-SB-SearchBar").appendChild(searchBar.DOMElement);
 
+// Stockage de la barre de recherche dans le gestionnaire de filtres
 oFilterManager.oSearchbar = searchBar;
