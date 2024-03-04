@@ -47,7 +47,7 @@ export default class FilterManager {
         // Mise à jour de l'affichage des recettes et des dropdowns
         this.updateRecipeDisplay(filteredRecipes);
         this.updateDropdownContents(filteredRecipes);
-        // return filteredRecipes;
+        this.updateCounter(filteredRecipes);
     }
 
     // Mise à jour de l'affichage des recettes filtrées
@@ -85,5 +85,14 @@ export default class FilterManager {
 
         // Rafraîchir les dropdowns
         [this.oIngredients, this.oAppliances, this.oUstensils].forEach(dropdown => dropdown.updateContents());
+    }
+
+    // Rafraîchit le total des recettes
+    updateCounter(filteredRecipes) {
+        const counterNumber = document.querySelector("#counter-number");
+        const counterLabel = document.querySelector("#counter-label");
+
+        counterNumber.textContent = filteredRecipes.length;
+        counterLabel.textContent = filteredRecipes.length <= 1 ? "recette" : "recettes";
     }
 }
