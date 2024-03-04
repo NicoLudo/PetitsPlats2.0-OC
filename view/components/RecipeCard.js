@@ -1,6 +1,6 @@
 class RecipeCard {
     constructor(id, name, image, time, recipe, ingredient) {
-        this.id = id
+        this.id = id;
         this.name = name;
         this.image = image;
         this.time = time;

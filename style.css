@@ -263,6 +263,12 @@ body {
 
 /* Dropdowns - Container parent */
 
+#rC-Parent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 #rC-Sorting {
     display: flex;
     flex-wrap: wrap;
@@ -482,6 +488,13 @@ Tablette : 1024px
 @media (max-width: 835px) {
     #rC-Recipes {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    #rC-Parent {
+        flex-direction: column;
+        gap: 50px;
     }
 }
 
