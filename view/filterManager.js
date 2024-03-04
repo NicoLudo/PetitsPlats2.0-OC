@@ -25,6 +25,37 @@ export default class FilterManager {
         this.updateCounter(filteredRecipes);
     }
 
+    // Fonction pour filtrer les recettes par texte
+    filterByText(recipes, searchText) {
+        return recipes.filter(recipe =>
+            recipe.name.toLowerCase().includes(searchText) ||
+            recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(searchText)) ||
+            recipe.description.toLowerCase().includes(searchText)
+        );
+    }
+
+    // Fonction pour filtrer les recettes par sélection (ingrédients, appareils, ustensiles)
+    filterBySelection(recipes, selection, type) {
+        if (!selection?.selectedItems?.length) return recipes;
+
+        const selectedItems = new Set(selection.selectedItems.map(item => item.toLowerCase()));
+
+        // Applique un filtrage cumulatif pour les ingrédients, appareils, et ustensiles
+        return recipes.filter(recipe => {
+            if (type === "ingredient") {
+                return selectedItems.size === new Set([...selectedItems].filter(item =>
+                    recipe.ingredients.some(ingredient => item === ingredient.ingredient.toLowerCase())
+                )).size;
+            } else if (type === "appliance") {
+                return selectedItems.has(recipe.appliance.toLowerCase());
+            } else if (type === "ustensil") {
+                return selectedItems.size === new Set([...selectedItems].filter(item =>
+                    recipe.ustensils.some(ustensil => item === ustensil.toLowerCase())
+                )).size;
+            }
+        });
+    }
+
     // Mise à jour de l'affichage des recettes filtrées
     updateRecipeDisplay(filteredRecipes) {
         const filteredIds = new Set(filteredRecipes.map(recipe => recipe.id));
