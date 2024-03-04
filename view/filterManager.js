@@ -9,81 +9,80 @@ export default class FilterManager {
 
     // Fonction pour filtrer les recettes basées sur les critères de recherche et de sélection
     filter() {
-        // Récupérer toutes les recettes
         let filteredRecipes = this.oControllerRecipe.getRecipes();
 
-        // Filtrer par texte de recherche
         const searchText = this.oSearchbar?.DOMElement.querySelector(".search-input")?.value?.toLowerCase();
         if (searchText?.length >= 3) {
-            filteredRecipes = filteredRecipes.filter(recipe =>
-                recipe.name.toLowerCase().includes(searchText) ||
-                recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(searchText)) ||
-                recipe.description.toLowerCase().includes(searchText)
-            );
+            filteredRecipes = this.filterByText(filteredRecipes, searchText);
         }
 
-        // Filtrer par ingrédients sélectionnés
-        if (this.oIngredients?.selectedItems?.length) {
-            const selectedIngredients = new Set(this.oIngredients.selectedItems.map(item => item.toLowerCase()));
-            filteredRecipes = filteredRecipes.filter(recipe =>
-                recipe.ingredients.some(ingredient => selectedIngredients.has(ingredient.ingredient.toLowerCase()))
-            );
-        }
+        filteredRecipes = this.filterBySelection(filteredRecipes, this.oIngredients, "ingredient");
+        filteredRecipes = this.filterBySelection(filteredRecipes, this.oAppliances, "appliance");
+        filteredRecipes = this.filterBySelection(filteredRecipes, this.oUstensils, "ustensil");
 
-        // Filtrer par appareils sélectionnés
-        if (this.oAppliances?.selectedItems?.length) {
-            const selectedAppliances = new Set(this.oAppliances.selectedItems.map(item => item.toLowerCase()));
-            filteredRecipes = filteredRecipes.filter(recipe => selectedAppliances.has(recipe.appliance.toLowerCase()));
-        }
-
-        // Filtrer par ustensiles sélectionnés
-        if (this.oUstensils?.selectedItems?.length) {
-            const selectedUstensils = new Set(this.oUstensils.selectedItems.map(item => item.toLowerCase()));
-            filteredRecipes = filteredRecipes.filter(recipe =>
-                recipe.ustensils.some(ustensil => selectedUstensils.has(ustensil.toLowerCase()))
-            );
-        }
-
-        // Mise à jour de l'affichage des recettes et des dropdowns
         this.updateRecipeDisplay(filteredRecipes);
         this.updateDropdownContents(filteredRecipes);
         this.updateCounter(filteredRecipes);
     }
 
+    // Fonction pour filtrer les recettes par texte
+    filterByText(recipes, searchText) {
+        return recipes.filter(recipe =>
+            recipe.name.toLowerCase().includes(searchText) ||
+            recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(searchText)) ||
+            recipe.description.toLowerCase().includes(searchText)
+        );
+    }
+
+    // Fonction pour filtrer les recettes par sélection (ingrédients, appareils, ustensiles)
+    filterBySelection(recipes, selection, type) {
+        if (!selection?.selectedItems?.length) return recipes;
+
+        const selectedItems = new Set(selection.selectedItems.map(item => item.toLowerCase()));
+        return recipes.filter(recipe => {
+            if (type === "ingredient") {
+                return recipe.ingredients.some(ingredient => selectedItems.has(ingredient.ingredient.toLowerCase()));
+            } else if (type === "appliance") {
+                return selectedItems.has(recipe.appliance.toLowerCase());
+            } else if (type === "ustensil") {
+                return recipe.ustensils.some(ustensil => selectedItems.has(ustensil.toLowerCase()));
+            }
+        });
+    }
+
     // Mise à jour de l'affichage des recettes filtrées
     updateRecipeDisplay(filteredRecipes) {
         const filteredIds = new Set(filteredRecipes.map(recipe => recipe.id));
-        this.oRecipeCards.forEach(card => {
+        for (const card of this.oRecipeCards) {
             const id = Number(card.getAttribute("data-id"));
             card.classList.toggle("recipe-card--active", filteredIds.has(id));
-        });
+        }
     }
 
     // Mise à jour des dropdowns basés sur les recettes filtrées
     updateDropdownContents(filteredRecipes) {
-        // Auxiliaire pour sécuriser la transformation en minuscules et appliquer la capitalisation
         const safeToLowerAndCapitalize = (item) => capitalizeText(item.toLowerCase());
 
-        // Fonction pour mettre à jour les sets
         const updateSet = (recipes, key) => {
-            switch (key) {
-                case "ingredients":
-                    return new Set(recipes.flatMap(recipe => recipe[key].map(ingredient => safeToLowerAndCapitalize(ingredient.ingredient))));
-                case "appliance":
-                    return new Set(recipes.map(recipe => safeToLowerAndCapitalize(recipe[key])));
-                case "ustensils":
-                    return new Set(recipes.flatMap(recipe => recipe[key].map(ustensil => safeToLowerAndCapitalize(ustensil))));
-                default:
-                    return new Set();
+            const items = new Set();
+            for (const recipe of recipes) {
+                if (key === "ingredients") {
+                    recipe[key].forEach(ingredient => items.add(safeToLowerAndCapitalize(ingredient.ingredient)));
+                } else if (key === "appliance" || key === "ustensils") {
+                    if (key === "appliance") {
+                        items.add(safeToLowerAndCapitalize(recipe[key]));
+                    } else {
+                        recipe[key].forEach(ustensil => items.add(safeToLowerAndCapitalize(ustensil)));
+                    }
+                }
             }
+            return items;
         };
 
-        // Mettre à jour et trier les listes
         this.oIngredients.contents = uniqueSortedList([...updateSet(filteredRecipes, "ingredients")]);
         this.oAppliances.contents = uniqueSortedList([...updateSet(filteredRecipes, "appliance")]);
         this.oUstensils.contents = uniqueSortedList([...updateSet(filteredRecipes, "ustensils")]);
 
-        // Rafraîchir les dropdowns
         [this.oIngredients, this.oAppliances, this.oUstensils].forEach(dropdown => dropdown.updateContents());
     }
 

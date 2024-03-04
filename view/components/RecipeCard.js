@@ -9,7 +9,7 @@ class RecipeCard {
         this.DOMElement = this.createCard(); // Crée l'élément DOM de la carte
     }
 
-    // Fonction pour créer un élément HTML avec des options spécifiques
+    // Crée un élément HTML avec des options spécifiques
     createElement(tag, className, content) {
         let element = document.createElement(tag);
         if (className) element.classList.add(className);
@@ -17,7 +17,7 @@ class RecipeCard {
         return element;
     }
 
-    // Fonction pour créer et retourner la carte recette complète
+    // Crée et retourne l'élément DOM de la carte recette
     createCard() {
         let cardDiv = this.createElement("div", "recipe-card");
         cardDiv.classList.add("recipe-card--active");
@@ -43,13 +43,15 @@ class RecipeCard {
         let ingDiv = this.createElement("div");
         let ingTitle = this.createElement("span", "span-title", "Ingrédients");
         ingDiv.prepend(ingTitle);
-        let ingList = this.createElement("div", "ing-list")
-        this.ingredient.forEach(({ ingredient, quantity, unit }) => {
+        let ingList = this.createElement("div", "ing-list");
+
+        for (const { ingredient, quantity, unit } of this.ingredient) {
             let ingSpan = this.createElement("span", "ing-span", `${ingredient}`);
             let ingSpanQU = this.createElement("span", "ing-qu", `${quantity}${unit ? " " + unit : ""}`);
             ingSpan.appendChild(ingSpanQU);
             ingList.appendChild(ingSpan);
-        });
+        }
+
         ingDiv.appendChild(ingList);
 
         parentDiv.appendChild(descDiv);
