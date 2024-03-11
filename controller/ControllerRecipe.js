@@ -1,24 +1,29 @@
 import ModelRecipes from "../model/ModelRecipe.js";
 
 class ControllerRecipe {
+    constructor() {
+        // Création d'une instance de ModelRecipes à la construction du contrôleur pour éviter la répétition de la création de l'instance dans chaque méthode
+        this.oRecipes = new ModelRecipes();
+    }
+
+    // Méthode pour obtenir les recettes
     getRecipes() {
-        let oRecipes = new ModelRecipes();
-        return oRecipes.recipes;
+        return this.oRecipes.recipes;
     }
 
+    // Méthode pour obtenir les ingrédients
     getIngredients() {
-        let oRecipes = new ModelRecipes();
-        return oRecipes.ingredients;
+        return this.oRecipes.ingredients;
     }
 
+    // Méthode pour obtenir les appareils
     getAppliances() {
-        let oRecipes = new ModelRecipes();
-        return oRecipes.appliances;
+        return this.oRecipes.appliances;
     }
 
+    // Méthode pour obtenir les ustensiles
     getUstensils() {
-        let oRecipes = new ModelRecipes();
-        return oRecipes.ustensils;
+        return this.oRecipes.ustensils;
     }
 }
 

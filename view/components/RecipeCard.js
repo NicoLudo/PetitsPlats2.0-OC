@@ -9,7 +9,7 @@ class RecipeCard {
         this.DOMElement = this.createCard(); // Crée l'élément DOM de la carte
     }
 
-    // Fonction pour créer un élément HTML avec des options spécifiques
+    // Crée un élément HTML avec des options spécifiques
     createElement(tag, className, content) {
         let element = document.createElement(tag);
         if (className) element.classList.add(className);
@@ -17,7 +17,7 @@ class RecipeCard {
         return element;
     }
 
-    // Fonction pour créer et retourner la carte recette complète
+    // Crée et retourne l'élément DOM de la carte recette
     createCard() {
         let cardDiv = this.createElement("div", "recipe-card");
         cardDiv.classList.add("recipe-card--active");
@@ -26,8 +26,10 @@ class RecipeCard {
         let imgDiv = this.createElement("div", "card-image");
         let img = this.createElement("img");
         img.src = `./src/images/${this.image}`;
-        let timeDiv = this.createElement("div", null, `${this.time} min`);
+        let timeDiv = this.createElement("div");
+        let timeText = this.createElement("span", null, `${this.time} min`);
 
+        timeDiv.appendChild(timeText);
         imgDiv.appendChild(img);
         imgDiv.appendChild(timeDiv);
 
@@ -36,20 +38,28 @@ class RecipeCard {
 
         let parentDiv = document.createElement("div");
 
-        let descDiv = this.createElement("div", null, `${this.recipe}`);
-        let descTitle = this.createElement("span", "span-title", "Recette");
+        let descDiv = this.createElement("div");
+        let descText = this.createElement("p", "card-desc", `${this.recipe}`);
+        let descTitle = this.createElement("h4", "card-subtitles", "Recette");
+
+        descDiv.appendChild(descText);
         descDiv.prepend(descTitle);
 
         let ingDiv = this.createElement("div");
-        let ingTitle = this.createElement("span", "span-title", "Ingrédients");
+        let ingTitle = this.createElement("h4", "card-subtitles", "Ingrédients");
+
         ingDiv.prepend(ingTitle);
-        let ingList = this.createElement("div", "ing-list")
-        this.ingredient.forEach(({ ingredient, quantity, unit }) => {
+
+        let ingList = this.createElement("div", "ing-list");
+
+        for (const { ingredient, quantity, unit } of this.ingredient) {
             let ingSpan = this.createElement("span", "ing-span", `${ingredient}`);
             let ingSpanQU = this.createElement("span", "ing-qu", `${quantity}${unit ? " " + unit : ""}`);
+
             ingSpan.appendChild(ingSpanQU);
             ingList.appendChild(ingSpan);
-        });
+        }
+
         ingDiv.appendChild(ingList);
 
         parentDiv.appendChild(descDiv);
