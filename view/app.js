@@ -13,9 +13,8 @@ let allRecipes = oControllerRecipe.getRecipes();
 const rCRecipes = document.querySelector("#rC-Recipes");
 
 // Boucle pour créer et afficher chaque carte de recette
-let recipes = [];
-for (let i = 0; i < allRecipes.length; i++) {
-    const recipe = allRecipes[i];
+let recipes = []
+allRecipes.forEach(recipe => {
     const oCard = new RecipeCard(
         recipe.id,
         recipe.name,
@@ -26,7 +25,7 @@ for (let i = 0; i < allRecipes.length; i++) {
     );
     rCRecipes.appendChild(oCard.DOMElement);
     recipes.push(oCard.DOMElement);
-}
+});
 // Stockage des cartes de recettes dans le gestionnaire de filtres
 oFilterManager.oRecipeCards = recipes;
 
