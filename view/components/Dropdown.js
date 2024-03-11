@@ -55,8 +55,7 @@ class Dropdown {
         const dropdownItemsDiv = document.createElement("div");
         dropdownItemsDiv.className = "dropdown-items";
 
-        for (let i = 0; i < contents.length; i++) {
-            const content = contents[i];
+        contents.forEach(content => {
             if (!this.selectedItems.includes(content)) {
                 const itemSpan = document.createElement("span");
                 itemSpan.textContent = content;
@@ -64,7 +63,7 @@ class Dropdown {
                 itemSpan.addEventListener("click", () => this.addItemsToSelected(content));
                 dropdownItemsDiv.appendChild(itemSpan);
             }
-        }
+        });
 
         return dropdownItemsDiv;
     }
@@ -109,8 +108,7 @@ class Dropdown {
     updateSelectedItemsDiv() {
         const updateDiv = (div) => {
             div.textContent = "";
-            for (let i = 0; i < this.selectedItems.length; i++) {
-                const item = this.selectedItems[i];
+            this.selectedItems.forEach(item => {
                 const selectedItem = document.createElement("span");
                 selectedItem.textContent = item;
                 selectedItem.className = "selected-item";
@@ -122,7 +120,7 @@ class Dropdown {
                 selectedItem.appendChild(deleteIcon);
 
                 div.appendChild(selectedItem);
-            }
+            });
         };
 
         const selectedItemsDiv = this.DOMElement.querySelector(".selected-items");
@@ -140,16 +138,15 @@ class Dropdown {
         }
         dropdownItemsDiv.textContent = "";
 
-        for (let i = 0; i < this.contents.length; i++) {
-            const content = this.contents[i];
+        this.contents.forEach(content => {
             if (!this.selectedItems.includes(content)) {
-                const itemSpan = document.createElement("span");
-                itemSpan.textContent = content;
-                itemSpan.className = "dropdown-item";
-                itemSpan.addEventListener("click", () => this.addItemsToSelected(content));
-                dropdownItemsDiv.appendChild(itemSpan);
+                const span = document.createElement("span");
+                span.textContent = content;
+                span.className = "dropdown-item";
+                span.addEventListener("click", () => this.addItemsToSelected(content));
+                dropdownItemsDiv.appendChild(span);
             }
-        }
+        });
     }
 
     // Assemble le dropdown complet
@@ -225,15 +222,12 @@ class Dropdown {
     }
 
     // Filtre les éléments du dropdown en fonction de la saisie
-    static filterDropdownItems(instance, inputValue, clearButton) {
-        clearButton.classList.toggle("search-clear--active", inputValue.length > 0);
-        const filteredContent = instance.contents.filter(content => content.toLowerCase().includes(inputValue));
-        const items = instance.DOMElement.querySelectorAll(".dropdown-item");
-
-        for (let i = 0; i < items.length; i++) {
-            const item = items[i];
-            item.classList.toggle("dropdown-item--active", !filteredContent.includes(item.textContent));
-        }
+    static filterDropdownItems(instance, input, clearButton) {
+        clearButton.classList.toggle("search-clear--active", input.value.length > 0);
+        let contentToShow = instance.contents.filter(content => content.toLowerCase().includes(input.value.toLowerCase()));
+        instance.DOMElement.querySelectorAll(".dropdown-item").forEach(item => {
+            item.classList.toggle("dropdown-item--active", !contentToShow.includes(item.textContent));
+        });
     }
 
     // Ferme le dropdown ouvert lors d'un clic en dehors de celui-ci

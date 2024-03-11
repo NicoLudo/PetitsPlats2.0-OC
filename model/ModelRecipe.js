@@ -27,34 +27,42 @@ class ModelRecipe {
 
     // Met à jour la liste des ingrédients en évitant les répétitions
     refreshIngredients() {
-        this.ingredients = this.getUniqueItems("ingredients", item => item.ingredient);
+        let allIngredients = [];
+
+        recipes.recipes.forEach(recipe => {
+            recipe.ingredients.forEach(ingredient => {
+                let ingredientName = capitalizeText(ingredient.ingredient);
+                allIngredients.push(ingredientName);
+            });
+        });
+
+        this.ingredients = uniqueSortedList(allIngredients);
     }
 
     // Met à jour la liste des appareils en évitant les répétitions
     refreshAppliances() {
-        this.appliances = this.getUniqueItems("appliance", item => item.appliance);
+        let allAppliances = [];
+
+        recipes.recipes.forEach(recipe => {
+            let applianceName = capitalizeText(recipe.appliance);
+            allAppliances.push(applianceName);
+        });
+
+        this.appliances = uniqueSortedList(allAppliances);
     }
 
     // Met à jour la liste des ustensiles en évitant les répétitions
     refreshUstensils() {
-        this.ustensils = this.getUniqueItems("ustensils", item => item);
-    }
+        let allUstensils = [];
 
-    // Fonction générique pour obtenir une liste triée et unique d'éléments à partir des recettes, en fonction du type d'élément spécifié
-    getUniqueItems(property, accessor) {
-        let allItems = [];
-        for (let i = 0; i < recipes.recipes.length; i++) {
-            const recipe = recipes.recipes[i];
-            if (property === "ingredients" || property === "ustensils") {
-                for (let j = 0; j < recipe[property].length; j++) {
-                    const item = recipe[property][j];
-                    allItems.push(capitalizeText(accessor(item)));
-                }
-            } else {
-                allItems.push(capitalizeText(accessor(recipe)));
-            }
-        }
-        return uniqueSortedList(allItems);
+        recipes.recipes.forEach(recipe => {
+            recipe.ustensils.forEach(ustensil => {
+                let ustensilName = capitalizeText(ustensil);
+                allUstensils.push(ustensilName);
+            });
+        });
+
+        this.ustensils = uniqueSortedList(allUstensils);
     }
 }
 
