@@ -27,33 +27,57 @@ export default class FilterManager {
 
     // Fonction pour filtrer les recettes par texte
     filterByText(recipes, searchText) {
-        return recipes.filter(recipe =>
-            recipe.name.toLowerCase().includes(searchText) ||
-            recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(searchText)) ||
-            recipe.description.toLowerCase().includes(searchText)
-        );
+        const filteredRecipes = [];
+        for (let i = 0; i < recipes.length; i++) {
+            const recipe = recipes[i];
+            const nameMatch = recipe.name.toLowerCase().includes(searchText);
+            let ingredientMatch = false;
+            for (let j = 0; j < recipe.ingredients.length; j++) {
+                if (recipe.ingredients[j].ingredient.toLowerCase().includes(searchText)) {
+                    ingredientMatch = true;
+                    break; // Sort de la boucle si un ingrédient correspond
+                }
+            }
+            const descriptionMatch = recipe.description.toLowerCase().includes(searchText);
+            if (nameMatch || ingredientMatch || descriptionMatch) {
+                filteredRecipes.push(recipe);
+            }
+        }
+        return filteredRecipes;
     }
 
     // Fonction pour filtrer les recettes par sélection (ingrédients, appareils, ustensiles)
     filterBySelection(recipes, selection, type) {
         if (!selection?.selectedItems?.length) return recipes;
-
         const selectedItems = new Set(selection.selectedItems.map(item => item.toLowerCase()));
-
-        // Applique un filtrage cumulatif pour les ingrédients, appareils, et ustensiles
-        return recipes.filter(recipe => {
+        const filteredRecipes = [];
+        for (let i = 0; i < recipes.length; i++) {
+            const recipe = recipes[i];
+            let matchesSelection = false;
             if (type === "ingredient") {
-                return selectedItems.size === new Set([...selectedItems].filter(item =>
-                    recipe.ingredients.some(ingredient => item === ingredient.ingredient.toLowerCase())
-                )).size;
+                let matchCount = 0;
+                for (let j = 0; j < recipe.ingredients.length; j++) {
+                    if (selectedItems.has(recipe.ingredients[j].ingredient.toLowerCase())) {
+                        matchCount++;
+                    }
+                }
+                matchesSelection = matchCount === selectedItems.size;
             } else if (type === "appliance") {
-                return selectedItems.has(recipe.appliance.toLowerCase());
+                matchesSelection = selectedItems.has(recipe.appliance.toLowerCase());
             } else if (type === "ustensil") {
-                return selectedItems.size === new Set([...selectedItems].filter(item =>
-                    recipe.ustensils.some(ustensil => item === ustensil.toLowerCase())
-                )).size;
+                let matchCount = 0;
+                for (let j = 0; j < recipe.ustensils.length; j++) {
+                    if (selectedItems.has(recipe.ustensils[j].toLowerCase())) {
+                        matchCount++;
+                    }
+                }
+                matchesSelection = matchCount === selectedItems.size;
             }
-        });
+            if (matchesSelection) {
+                filteredRecipes.push(recipe);
+            }
+        }
+        return filteredRecipes;
     }
 
     // Mise à jour de l'affichage des recettes filtrées
