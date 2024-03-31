@@ -23,6 +23,7 @@ export default class FilterManager {
         this.updateRecipeDisplay(filteredRecipes);
         this.updateDropdownContents(filteredRecipes);
         this.updateCounter(filteredRecipes);
+        this.displayNoRecipesMessage(filteredRecipes);
     }
 
     // Fonction pour filtrer les recettes par texte
@@ -123,5 +124,22 @@ export default class FilterManager {
 
         counterNumber.textContent = filteredRecipes.length;
         counterLabel.textContent = filteredRecipes.length <= 1 ? "recette" : "recettes";
+    }
+
+    // Affiche un message si aucune recette n'est trouvée
+    displayNoRecipesMessage(filteredRecipes) {
+        const recipeContainer = document.querySelector("#rC-Recipes");
+
+        let noRecipesMessage = recipeContainer.querySelector("p.no-recipes");
+        if (noRecipesMessage) {
+            recipeContainer.removeChild(noRecipesMessage);
+        }
+
+        if (filteredRecipes.length === 0) {
+            noRecipesMessage = document.createElement("p");
+            noRecipesMessage.classList.add("no-recipes");
+            noRecipesMessage.textContent = "Aucune recettes trouvées.";
+            recipeContainer.appendChild(noRecipesMessage);
+        }
     }
 }
