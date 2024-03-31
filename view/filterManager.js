@@ -48,6 +48,7 @@ export default class FilterManager {
         this.updateRecipeDisplay(filteredRecipes);
         this.updateDropdownContents(filteredRecipes);
         this.updateCounter(filteredRecipes);
+        this.displayNoRecipesMessage(filteredRecipes);
     }
 
     // Mise à jour de l'affichage des recettes filtrées
@@ -94,5 +95,28 @@ export default class FilterManager {
 
         counterNumber.textContent = filteredRecipes.length;
         counterLabel.textContent = filteredRecipes.length <= 1 ? "recette" : "recettes";
+    }
+
+    // Affiche un message si aucune recette n'est trouvée
+    displayNoRecipesMessage(filteredRecipes) {
+        const recipeContainer = document.querySelector("#rC-Recipes");
+
+        // Recherche d'un message existant
+        let noRecipesMessage = recipeContainer.querySelector("p.no-recipes");
+
+        if (filteredRecipes.length === 0) {
+            // Si aucun message n'existe et aucune recette trouvée, on crée le message
+            if (!noRecipesMessage) {
+                noRecipesMessage = document.createElement("p");
+                noRecipesMessage.classList.add("no-recipes");
+                noRecipesMessage.textContent = "Aucune recettes trouvées.";
+                recipeContainer.appendChild(noRecipesMessage);
+            }
+        } else {
+            // Si des recettes sont trouvées et un message existe, on le supprime
+            if (noRecipesMessage) {
+                recipeContainer.removeChild(noRecipesMessage);
+            }
+        }
     }
 }
